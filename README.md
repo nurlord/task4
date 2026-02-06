@@ -62,6 +62,10 @@ Initialize the database schema
 npx prisma migrate dev --name init
 ```
 
+```bash
+npx prisma generate
+```
+
 Run the Server
 
 ```bash
