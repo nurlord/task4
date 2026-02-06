@@ -82,7 +82,7 @@ export default function UserTablePage() {
           >
             <BrushCleaning className="w-4 h-4" />
           </Button>
-          <TooltipContent>Delete users who never logged in</TooltipContent>
+          <TooltipContent>Delete all unverified users</TooltipContent>
         </Tooltip>
 
         <div className="ml-auto">
