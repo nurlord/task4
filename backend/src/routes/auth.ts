@@ -2,6 +2,7 @@ import express from "express";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import prisma from "../db.js";
+import { authMiddleware } from "../middleware/auth.js";
 
 const router = express.Router();
 
@@ -52,7 +53,7 @@ router.post("/login", async (req, res) => {
 
     await prisma.user.update({
       where: { id: user.id },
-      data: { lastLogin: new Date(), status: "active" },
+      data: { lastLogin: new Date() },
     });
 
     const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET!, {
@@ -63,6 +64,18 @@ router.post("/login", async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Login failed" });
+  }
+});
+
+router.post("/verify", authMiddleware, async (req, res) => {
+  try {
+    await prisma.user.update({
+      where: { id: req.user!.id },
+      data: { status: "active" },
+    });
+    res.json({ message: "Verified successfully" });
+  } catch (error) {
+    res.status(500).json({ error: "Verification failed" });
   }
 });
 

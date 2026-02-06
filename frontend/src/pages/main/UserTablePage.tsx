@@ -1,9 +1,15 @@
 import { useState } from "react";
 import { useUsers, useUserActions } from "@/hooks/useUsers";
 import { Button } from "@/components/ui/button";
-import { Lock, Unlock, Trash2, BrushCleaning } from "lucide-react";
+import { Lock, Unlock, Trash2, BrushCleaning, MailCheck } from "lucide-react";
 import { UserTable } from "./components/UserTable";
-import { Tooltip, TooltipContent } from "@/components/ui/tooltip";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import { api } from "@/lib/api";
+import { queryClient } from "@/lib/queryClient";
 
 export default function UserTablePage() {
   const { data: users, error } = useUsers();
@@ -17,6 +23,11 @@ export default function UserTablePage() {
   const handleAction = async (action: () => Promise<unknown>) => {
     await action();
     setSelectedKeys(new Set());
+  };
+
+  const verifyAccount = async () => {
+    await api.post("auth/verify");
+    await queryClient.invalidateQueries({ queryKey: ["users"] });
   };
 
   if (error) return <div className="p-8 text-red-500">Error loading users</div>;
@@ -77,6 +88,23 @@ export default function UserTablePage() {
           </Button>
           <TooltipContent>Delete users who never logged in</TooltipContent>
         </Tooltip>
+
+        <div className="ml-auto">
+          <Tooltip>
+            <Button
+              onPress={() => verifyAccount()}
+              isDisabled={isPending}
+              intent="secondary"
+              className="gap-2"
+            >
+              <MailCheck className="w-4 h-4" />
+              Simulate Email Verify
+            </Button>
+            <TooltipContent>
+              Click to verify your own account (Emulates clicking email link)
+            </TooltipContent>
+          </Tooltip>
+        </div>
       </div>
 
       <UserTable
