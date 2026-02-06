@@ -75,6 +75,7 @@ Method Endpoint Description
 ```
 POST  /auth/login Login and receive a JWT token.
 POST  /auth/register Register a new user.
+POST  /auth/verify Verify current user.
 ```
 
 Method Endpoint Description
