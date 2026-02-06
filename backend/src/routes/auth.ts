@@ -25,6 +25,8 @@ router.post("/register", async (req, res) => {
     res.status(201).json({ message: "Registered successfully" });
   } catch (error: any) {
     console.error("REGISTRATION ERROR:", error);
+
+    // INFO: Catches unique email error
     if (error.code === "P2002") {
       return res.status(409).json({ error: "Email already registered" });
     }

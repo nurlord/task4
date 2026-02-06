@@ -54,7 +54,7 @@ router.delete("/delete-unverified", async (_, res) => {
   try {
     const result = await prisma.user.deleteMany({
       where: {
-        lastLogin: null,
+        status: "unverified",
       },
     });
     res.json({ message: `Deleted ${result.count} unverified users` });

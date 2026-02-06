@@ -3,11 +3,7 @@ import { useUsers, useUserActions } from "@/hooks/useUsers";
 import { Button } from "@/components/ui/button";
 import { Lock, Unlock, Trash2, BrushCleaning, MailCheck } from "lucide-react";
 import { UserTable } from "./components/UserTable";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
+import { Tooltip, TooltipContent } from "@/components/ui/tooltip";
 import { api } from "@/lib/api";
 import { queryClient } from "@/lib/queryClient";
 
